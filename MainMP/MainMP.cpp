@@ -47,7 +47,6 @@ int main() {
     bool run = true;
     while (run) {
         logo();
-        cout << run << endl;
         cout << "\nКакая лабораторная?"
             "\n\n1. Метод отработки назад (Задача с машиной в пустыни)"
             "\n2. Алгоритмы" << endl;
