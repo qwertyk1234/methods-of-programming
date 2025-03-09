@@ -49,7 +49,8 @@ int main() {
         logo();
         cout << "\nКакая лабораторная?"
             "\n\n1. Метод отработки назад (Задача с машиной в пустыни)"
-            "\n2. Алгоритмы" << endl;
+            "\n2. Алгоритмы"
+            "\n3. Шахматная доска"<< endl;
 
         int ch;
         cout << "\n/#?: ";
@@ -61,6 +62,9 @@ int main() {
             break;
         case 2:
             lab2();
+            break;
+        case 3:
+            lab3();
             break;
         default:
             system("cls");

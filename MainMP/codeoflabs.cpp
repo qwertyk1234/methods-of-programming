@@ -1,6 +1,7 @@
 ﻿#include "codeoflabs.h"
 #include <iostream>
 #include <winsock2.h>
+#include <vector>
 using namespace std;
 HANDLE hOUTPUT2 = GetStdHandle(STD_OUTPUT_HANDLE);
 
@@ -114,3 +115,45 @@ void lab2() {
     }
 }
 
+
+///Lab3 - Шахматная доска (Ферзи) 
+int N; 
+int solutions = 0; 
+
+bool iS(const vector<int>& b, int row, int col) {
+    for (int i = 0; i < row; i++) {
+        if (b[i] == col ||
+            b[i] - i == col - row ||
+            b[i] + i == col + row) {
+            return false;
+        }
+    }
+    return true;
+}
+
+void q(vector<int>& b, int row) {
+    if (row == N) {
+        solutions++;
+        return;
+    }
+    for (int col = 0; col < N; col++) {
+        if (iS(b, row, col)) {
+            b[row] = col;
+            q(b, row + 1);
+        }
+    }
+}
+
+void lab3() {
+    logo(1);
+    cout << "\nВведите число ферзей и размер доски: ";
+    cin >> N;
+    if (N < 4) {
+        cout << "Число возможных расстановок " << N << " ферзей на доске " << N << " на " << N << ": 0"<< endl;
+    }
+    else {
+        vector<int> b(N, -1);
+        q(b, 0);
+        cout << "Число возможных расстановок " << N << " ферзей на доске " << N << " на " << N << ": " << solutions << endl;
+    }
+}
