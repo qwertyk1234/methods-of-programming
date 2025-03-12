@@ -99,6 +99,7 @@ void lab2() {
         "\n3. Спички-камни" << endl;
 
     int n;
+    int m;
     int omove;
     int ch;
     cout << "\n/#?: ";
@@ -118,7 +119,9 @@ void lab2() {
     case 3:
         cout << "\nВведите число спичек в начале: ";
         cin >> n;
-        omove = n % 5;
+        cout << "Введите макс. возможное число, которое можно взять за раз: ";
+        cin >> m;
+        omove = n % m;
         if (omove == 0) omove = 1;
         cout << "Первый игрок должен взять " << omove << " спичек, чтобы выиграть." << endl;
         break;
