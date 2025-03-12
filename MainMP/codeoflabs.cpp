@@ -2,6 +2,8 @@
 #include <iostream>
 #include <winsock2.h>
 #include <vector>
+#include <fstream>
+#include <list>
 using namespace std;
 HANDLE hOUTPUT2 = GetStdHandle(STD_OUTPUT_HANDLE);
 
@@ -34,6 +36,18 @@ void logo(int n) {
 | ▓▓  | ▓▓ ▓▓_____| ▓▓__| ▓▓ ▓▓__/ ▓▓ ▓▓  | ▓▓_| ▓▓_   | ▓▓  | ▓▓  | ▓▓ ▓▓ \▓▓▓| ▓▓  \__| ▓▓
 | ▓▓  | ▓▓ ▓▓     \\▓▓    ▓▓\▓▓    ▓▓ ▓▓  | ▓▓   ▓▓ \  | ▓▓  | ▓▓  | ▓▓ ▓▓  \▓ | ▓▓\▓▓    ▓▓
  \▓▓   \▓▓\▓▓▓▓▓▓▓▓ \▓▓▓▓▓▓  \▓▓▓▓▓▓ \▓▓   \▓▓\▓▓▓▓▓▓   \▓▓   \▓▓   \▓▓\▓▓      \▓▓ \▓▓▓▓▓▓                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+)";
+    }
+    else if (n == 3) {
+        logo = LR"(
+ /$$   /$$  /$$$$$$   /$$$$$$  /$$   /$$         /$$$$$$$$ /$$   /$$ /$$   /$$  /$$$$$$ 
+| $$  | $$ /$$__  $$ /$$__  $$| $$  | $$        | $$_____/| $$  | $$| $$$ | $$ /$$__  $$
+| $$  | $$| $$  \ $$| $$  \__/| $$  | $$        | $$      | $$  | $$| $$$$| $$| $$  \__/
+| $$$$$$$$| $$$$$$$$| $$      | $$$$$$$$ /$$$$$$| $$$$$   | $$  | $$| $$ $$ $$| $$      
+| $$__  $$| $$__  $$| $$      | $$__  $$|______/| $$__/   | $$  | $$| $$  $$$$| $$      
+| $$  | $$| $$  | $$| $$    $$| $$  | $$        | $$      | $$  | $$| $$\  $$$| $$    $$
+| $$  | $$| $$  | $$|  $$$$$$/| $$  | $$        | $$      |  $$$$$$/| $$ \  $$|  $$$$$$/
+|__/  |__/|__/  |__/ \______/ |__/  |__/        |__/       \______/ |__/  \__/ \______/                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
 )";
     }
     locale::global(locale("en_US.UTF-8"));
@@ -155,5 +169,84 @@ void lab3() {
         vector<int> b(N, -1);
         q(b, 0);
         cout << "Число возможных расстановок " << N << " ферзей на доске " << N << " на " << N << ": " << solutions << endl;
+    }
+}
+
+
+///Lab4 - Хеширование
+class HashTable {
+private:
+    int SIZE = 100;
+    vector<list<int>> table;
+
+    int hashFunction(int key) {
+        return key % SIZE;
+    }
+
+public:
+    HashTable() : table(SIZE) {}
+
+    void insert(int key) {
+        int index = hashFunction(key);
+        table[index].push_back(key);
+        ///cout << key << " " << index << endl;
+        ///if (find(table[index].begin(), table[index].end(), key) == table[index].end()) {
+        ///    table[index].push_back(key);
+        ///}
+    }
+
+    void remove(int key) {
+        int index = hashFunction(key);
+        table[index].remove(key);
+    }
+
+    bool search(int key) {
+        int index = hashFunction(key);
+        return find(table[index].begin(), table[index].end(), key) != table[index].end();
+    }
+
+    void print(ofstream& outFile) {
+        for (int i = 0; i < SIZE; i++) {
+            if (!table[i].empty()) {
+                outFile << "Index " << i << ": ";
+                for (int num : table[i]) {
+                    outFile << num << " ";
+                }
+                outFile << endl;
+            }
+        }
+    }
+};
+
+
+void lab4() {
+    logo(3);
+    HashTable hashTable;
+    ifstream inputFile("input.txt");
+    ofstream outputFile("output.txt");
+
+    if (!inputFile) {
+        cerr << "\nОшибка открытия input.txt" << endl;
+        system("exit");
+    }
+
+    int num;
+    while (inputFile >> num) {
+        hashTable.insert(num);
+    }
+
+    hashTable.print(outputFile);
+
+    inputFile.close();
+    outputFile.close();
+
+    cout << "\nВведите число для поиска: ";
+    cin >> num;
+
+    if (hashTable.search(num)) {
+        cout << "Число найдено в хеш-таблице." << endl;
+    }
+    else {
+        cout << "Число отсутствует в хеш-таблице." << endl;
     }
 }
