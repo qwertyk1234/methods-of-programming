@@ -140,9 +140,19 @@ vector<int> finalBoard;
 
 bool iS(const vector<int>& b, int row, int col) {
     for (int i = 0; i < row; i++) {
+        if (b[i] == col) {
+            return false;
+        }
+    }
+    return true;
+}
+
+bool iS2(const vector<int>& b, int row, int col) {
+    for (int i = 0; i < row; i++) {
         if (b[i] == col ||
             b[i] - i == col - row ||
-            b[i] + i == col + row) {
+            b[i] + i == col + row
+            ) {
             return false;
         }
     }
@@ -157,6 +167,24 @@ void q(vector<int>& b, int row) {
         }
         return;
     }
+    
+    for (int col = 0; col < N; col++) {
+       if (iS2(b, row, col)) {
+           b[row] = col;
+           q(b, row + 1);
+       }
+   }    
+}
+
+void f(vector<int>& b, int row) {
+    if (row == N) {
+        solutions++;
+        if (solutions == 1) {
+            finalBoard = b;
+        }
+        return;
+    }
+
     for (int col = 0; col < N; col++) {
         if (iS(b, row, col)) {
             b[row] = col;
@@ -169,7 +197,7 @@ void printBoard(const vector<int>& b) {
     for (int i = 0; i < N; i++) {
         for (int j = 0; j < N; j++) {
             if (b[i] == j) {
-                cout << "Q "; 
+                cout << "F "; 
             }
             else {
                 cout << ". ";
@@ -181,15 +209,24 @@ void printBoard(const vector<int>& b) {
 
 void lab3() {
     logo(2);
-    cout << "\nВведите число ферзей и размер доски: ";
+    cout << "\nВведите число ферзей (ладья) и размер доски: ";
     cin >> N;
-    if (N < 4) {
-        cout << "Число возможных расстановок " << N << " ферзей на доске " << N << " на " << N << ": 0" << endl;
+    cout << "Что мы проверяем?"
+        "\n1. Ферзи"
+        "\n2. Ладьи" << endl;
+    int ch;
+    cout << "~#/: ";
+    cin >> ch;
+    if (N < 2) {
+        cout << "Число возможных расстановок " << N << " ферзей (ладья) на доске " << N << " на " << N << ": 0" << endl;
     }
     else {
+        if (ch == 1) {
+
+        }
         vector<int> b(N, -1);
         q(b, 0);
-        cout << "Число возможных расстановок " << N << " ферзей на доске " << N << " на " << N << ": " << solutions << endl;
+        cout << "Число возможных расстановок " << N << " ферзей (ладья) на доске " << N << " на " << N << ": " << solutions << endl;
 
         if (solutions > 0) {
             cout << "\nОдна из возможных расстановок:" << endl;
