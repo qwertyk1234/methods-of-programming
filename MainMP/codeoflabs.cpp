@@ -136,7 +136,7 @@ void lab2() {
 ///Lab3 - Шахматная доска (Ферзи) 
 int N;
 int solutions = 0;
-vector<int> finalBoard; // Для хранения одной из возможных расстановок
+vector<int> finalBoard;
 
 bool iS(const vector<int>& b, int row, int col) {
     for (int i = 0; i < row; i++) {
@@ -206,8 +206,7 @@ private:
     vector<list<int>> table;
 
     int hashFunction(int key) {
-        cout << key << " " << key % 100 << endl;
-        return key % SIZE;
+        return SIZE%key;
 
     }
 
