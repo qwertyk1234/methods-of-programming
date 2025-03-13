@@ -193,11 +193,14 @@ void f(vector<int>& b, int row) {
     }
 }
 
-void printBoard(const vector<int>& b) {
+void printBoard(const vector<int>& b, int ch) {
     for (int i = 0; i < N; i++) {
         for (int j = 0; j < N; j++) {
-            if (b[i] == j) {
-                cout << "F "; 
+            if (b[i] == j && ch == 1) {
+                cout << "Q "; 
+            }
+            else if (b[i] == j && ch == 2) {
+                cout << "F ";
             }
             else {
                 cout << ". ";
@@ -217,23 +220,38 @@ void lab3() {
     int ch;
     cout << "~#/: ";
     cin >> ch;
-    if (N < 2) {
-        cout << "Число возможных расстановок " << N << " ферзей (ладья) на доске " << N << " на " << N << ": 0" << endl;
-    }
-    else {
-        if (ch == 1) {
+  
 
+    if (ch == 1) {
+        if (N < 2) {
+            cout << "Число возможных расстановок " << N << " ферзей на доске " << N << " на " << N << ": 0" << endl;
+            system("cls");
         }
         vector<int> b(N, -1);
         q(b, 0);
-        cout << "Число возможных расстановок " << N << " ферзей (ладья) на доске " << N << " на " << N << ": " << solutions << endl;
+        cout << "Число возможных расстановок " << N << " ферзей на доске " << N << " на " << N << ": " << solutions << endl;
 
         if (solutions > 0) {
             cout << "\nОдна из возможных расстановок:" << endl;
-            printBoard(finalBoard);
+            printBoard(finalBoard, ch);
         }
     }
+    else if (ch == 2) {
+        vector<int> b(N, -1);
+        f(b, 0);
+        cout << "Число возможных расстановок " << N << " ладый на доске " << N << " на " << N << ": " << solutions << endl;
+
+         if (solutions > 0) {
+            cout << "\nОдна из возможных расстановок:" << endl;
+            printBoard(finalBoard, ch);
+         }
+    }
+    else {
+        cout << "Неверный выбор!" << endl;
+        system("cls");
+    }
 }
+
 
 
 ///Lab4 - Хеширование
