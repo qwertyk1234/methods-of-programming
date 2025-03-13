@@ -180,6 +180,7 @@ void printBoard(const vector<int>& b) {
 }
 
 void lab3() {
+    logo(2);
     cout << "\nВведите число ферзей и размер доски: ";
     cin >> N;
     if (N < 4) {
