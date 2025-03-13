@@ -134,8 +134,9 @@ void lab2() {
 
 
 ///Lab3 - Шахматная доска (Ферзи) 
-int N; 
-int solutions = 0; 
+int N;
+int solutions = 0;
+vector<int> finalBoard; // Для хранения одной из возможных расстановок
 
 bool iS(const vector<int>& b, int row, int col) {
     for (int i = 0; i < row; i++) {
@@ -151,6 +152,9 @@ bool iS(const vector<int>& b, int row, int col) {
 void q(vector<int>& b, int row) {
     if (row == N) {
         solutions++;
+        if (solutions == 1) { 
+            finalBoard = b;
+        }
         return;
     }
     for (int col = 0; col < N; col++) {
@@ -161,17 +165,35 @@ void q(vector<int>& b, int row) {
     }
 }
 
+void printBoard(const vector<int>& b) {
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < N; j++) {
+            if (b[i] == j) {
+                cout << "Q "; 
+            }
+            else {
+                cout << ". ";
+            }
+        }
+        cout << endl;
+    }
+}
+
 void lab3() {
-    logo(1);
     cout << "\nВведите число ферзей и размер доски: ";
     cin >> N;
     if (N < 4) {
-        cout << "Число возможных расстановок " << N << " ферзей на доске " << N << " на " << N << ": 0"<< endl;
+        cout << "Число возможных расстановок " << N << " ферзей на доске " << N << " на " << N << ": 0" << endl;
     }
     else {
         vector<int> b(N, -1);
         q(b, 0);
         cout << "Число возможных расстановок " << N << " ферзей на доске " << N << " на " << N << ": " << solutions << endl;
+
+        if (solutions > 0) {
+            cout << "\nОдна из возможных расстановок:" << endl;
+            printBoard(finalBoard);
+        }
     }
 }
 
@@ -183,7 +205,9 @@ private:
     vector<list<int>> table;
 
     int hashFunction(int key) {
+        cout << key << " " << key % 100 << endl;
         return key % SIZE;
+
     }
 
 public:
