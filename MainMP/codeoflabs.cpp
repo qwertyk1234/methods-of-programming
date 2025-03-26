@@ -316,19 +316,77 @@ void lab4() {
     while (inputFile >> num) {
         hashTable.insert(num);
     }
-
-    hashTable.print(outputFile);
-
     inputFile.close();
+
+    bool reg = true;
+    bool reg2 = true;
+    while (reg) {
+        int ch2;
+        system("cls");
+        logo(3);
+        cout << "\nЖелаете внести изменения?"
+            "\n1. Добавить элемент"
+            "\n2. Удалить элемент"
+            "\n3. Поиск элемента"
+            "\n4. Пропустить" << endl;
+
+        cin >> ch2;
+
+        switch (ch2) {
+        case 1:
+            while (reg2) {
+                cout << "\nВведите число, которое нужно добавить (если выход, то 0): ";
+                cin >> num;
+                if (num == 0) {
+                    reg2 = false;
+                } else if (num > 100) {
+                    printf("Число может быть только меньше 101\n");
+                } else {
+                    hashTable.insert(num);
+                }
+            }
+            system("pause");
+            break;
+
+        case 2:
+            reg2 = true;
+            while (reg2) {
+                cout << "\nВведите число, которое нужно удалить (если выход, то 0): ";
+                cin >> num;
+                if (num == 0) {
+                    reg2 = false;
+                } else if (num > 100) {
+                    printf("Число может быть только меньше 101\n");
+                } else {
+                    hashTable.remove(num);
+                }
+            }
+            system("pause");
+            break;
+
+        case 3:
+            cout << "\nВведите число для поиска: ";
+            cin >> num;
+            if (hashTable.search(num)) {
+                cout << "Число найдено в хеш-таблице." << endl;
+            } else if (num > 100 || num == 0) {
+                printf("Число может быть только меньше 101 и не == 0\n");
+            } else {
+                cout << "Число отсутствует в хеш-таблице." << endl;
+            }
+            system("pause");
+            break;
+
+        case 4:
+            cout << "Файл сохранен или остался без изменений!" << endl;
+            reg = false;
+            break;
+
+        default:
+            cout << "Неверный выбор." << endl;
+            continue;
+        }
+    }
+    hashTable.print(outputFile);
     outputFile.close();
-
-    cout << "\nВведите число для поиска: ";
-    cin >> num;
-
-    if (hashTable.search(num)) {
-        cout << "Число найдено в хеш-таблице." << endl;
-    }
-    else {
-        cout << "Число отсутствует в хеш-таблице." << endl;
-    }
 }
